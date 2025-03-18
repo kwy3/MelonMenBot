@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "express": "^4.21.2",
+    "mineflayer": "^4.26.0",
+    "mineflayer-collectblock": "^1.6.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "mineflayer-web-inventory": "^1.8.5",
+    "nodemon": "^3.1.9",
+    "prismarine-nbt": "^2.7.0",
+    "socket.io": "^4.8.1"
+  }
+}

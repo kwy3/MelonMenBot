@@ -1,0 +1,19 @@
+{
+  "host": "localhost",
+  "port": 30000,
+  "username": "KitBot",
+
+  "shulkerChest": {"x": -8, "y": -60, "z": 7},
+
+  "kitChest": {"x": -12, "y": -60, "z": 3},
+
+  "discardChest": {"x": -8, "y": -60, "z": 2},
+
+  "referenceKit": {"x": -10, "y": -60, "z": 7},
+
+  "searchRange": 16,
+
+  "shulkerBlock": "purpur_block",
+
+  "discordToken": "MTM1MDkyMDY5NzgxOTQzMDk4Mg.GNf7S4.0LG5xYFc_7eDLO_V4-Pmo8Q0Qi2pTfem9Hpi4w"
+}

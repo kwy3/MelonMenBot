@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Bot Controller</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <i class="bi bi-robot me-2"></i>
+          Minecraft Bot Controller
+        </a>
+        <div class="ms-auto d-flex align-items-center">
+          <div id="botStatusIndicator" class="status-indicator offline me-2"></div>
+          <span id="botStatusText" class="text-muted">Offline</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid main-content">
+      <div class="row g-4">
+        <!-- Left Column - Available Items -->
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Available Items</h5>
+              <div>
+                <button id="refreshItemsBtn" class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+                </button>
+                <div class="form-check form-switch d-inline-block ms-2">
+                  <input class="form-check-input" type="checkbox" id="showAllItemsSwitch">
+                  <label class="form-check-label" for="showAllItemsSwitch">Show All</label>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-dark border-secondary">
+                  <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control bg-dark border-secondary text-light" id="itemSearchInput" placeholder="Search items...">
+              </div>
+              <div class="available-items-container" id="availableItemsList">
+                <div class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <p class="mt-2 text-muted">Loading items...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Column - Shulker Box and Status -->
+        <div class="col-lg-6">
+          <!-- Shulker Box -->
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Shulker Box</h5>
+              <button id="clearShulkerBtn" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash me-1"></i>Clear All
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="shulkerBox" class="shulker-box">
+                <!-- 3 rows of 9 slots each -->
+                <div class="shulker-row">
+                  <div class="shulker-slot" data-slot="0"></div>
+                  <div class="shulker-slot" data-slot="1"></div>
+                  <div class="shulker-slot" data-slot="2"></div>
+                  <div class="shulker-slot" data-slot="3"></div>
+                  <div class="shulker-slot" data-slot="4"></div>
+                  <div class="shulker-slot" data-slot="5"></div>
+                  <div class="shulker-slot" data-slot="6"></div>
+                  <div class="shulker-slot" data-slot="7"></div>
+                  <div class="shulker-slot" data-slot="8"></div>
+                </div>
+                <div class="shulker-row">
+                  <div class="shulker-slot" data-slot="9"></div>
+                  <div class="shulker-slot" data-slot="10"></div>
+                  <div class="shulker-slot" data-slot="11"></div>
+                  <div class="shulker-slot" data-slot="12"></div>
+                  <div class="shulker-slot" data-slot="13"></div>
+                  <div class="shulker-slot" data-slot="14"></div>
+                  <div class="shulker-slot" data-slot="15"></div>
+                  <div class="shulker-slot" data-slot="16"></div>
+                  <div class="shulker-slot" data-slot="17"></div>
+                </div>
+                <div class="shulker-row">
+                  <div class="shulker-slot" data-slot="18"></div>
+                  <div class="shulker-slot" data-slot="19"></div>
+                  <div class="shulker-slot" data-slot="20"></div>
+                  <div class="shulker-slot" data-slot="21"></div>
+                  <div class="shulker-slot" data-slot="22"></div>
+                  <div class="shulker-slot" data-slot="23"></div>
+                  <div class="shulker-slot" data-slot="24"></div>
+                  <div class="shulker-slot" data-slot="25"></div>
+                  <div class="shulker-slot" data-slot="26"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button id="startSequenceBtn" class="btn btn-primary w-100">
+                <i class="bi bi-play-fill me-1"></i>Start Sequence
+              </button>
+            </div>
+          </div>
+          
+          <!-- Status Card -->
+          <div class="card border-0 shadow-sm">
+            <div class="card-header">
+              <h5 class="mb-0">Status</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-3">
+                <span>Bot Status:</span>
+                <span id="botStatus" class="badge bg-secondary">Unknown</span>
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <span>Sequence Status:</span>
+                <span id="sequenceStatus" class="badge bg-secondary">Idle</span>
+              </div>
+              <div class="progress mb-3" style="height: 8px;">
+                <div id="sequenceProgress" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div id="statusMessage" class="alert alert-dark d-none"></div>
+              
+              <!-- Action Buttons -->
+              <div class="action-buttons mt-3">
+                <button id="scanChestsBtn" class="btn btn-outline-info">
+                  <i class="bi bi-search me-1"></i>Scan Chests
+                </button>
+                <button id="readReferenceBtn" class="btn btn-outline-warning">
+                  <i class="bi bi-box me-1"></i>Read Reference
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3">
+      <div class="container text-center">
+        <span class="text-muted">Minecraft Bot Controller &copy; 2023</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Item Template -->
+  <template id="itemTemplate">
+    <div class="item-card" data-id="">
+      <div class="item-icon">
+        <img src="/placeholder.svg" alt="">
+      </div>
+      <div class="item-details">
+        <div class="item-name"></div>
+        <div class="item-id text-muted"></div>
+      </div>
+      <button class="btn btn-sm btn-primary item-select-btn">Select</button>
+    </div>
+  </template>
+
+  <!-- Item in Slot Template -->
+  <template id="slotItemTemplate">
+    <div class="slot-item" data-id="">
+      <img class="item-icon" src="/placeholder.svg" alt="">
+      <span class="item-count">1</span>
+      <button class="remove-item-btn">&times;</button>
+    </div>
+  </template>
+
+  <!-- Item Quantity Modal -->
+  <div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="quantityModalLabel">Set Item Quantity</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <div id="modalItemIcon" class="modal-item-icon mx-auto">
+  <!-- Item icon will be inserted here -->
+</div>
+            <h5 id="modalItemName" class="mt-2"></h5>
+          </div>
+          <div class="form-group">
+            <label for="itemQuantity" class="form-label">Quantity (1-64):</label>
+            <input type="number" class="form-control bg-dark border-secondary text-light" id="itemQuantity" min="1" max="64" value="1">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="confirmQuantityBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <i class="bi bi-info-circle me-2"></i>
+        <strong class="me-auto" id="toastTitle">Notification</strong>
+        <small id="toastTime">Just now</small>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="toastMessage">
+        This is a notification message.
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
