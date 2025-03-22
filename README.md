@@ -16,6 +16,9 @@ Kit making bot for 2b2t. Controllable through a discord bot and web GUI. More fe
 Install node.js if not already installed from here:
 https://nodejs.org/
 
+Instal git if not already installed:
+https://github.com/git-guides/install-git
+
 Open terminal and navigate to the directory you wish to install in, then run the following
 
 ```bash
