@@ -44,7 +44,9 @@ Click "New Application"
 - Create a new empty discord server for yourself
 - Copy the generated url at the bottom of OAuth2 into your browser and follow the instructions to add the bot to the server you made
 
-Now in terminal if you are not already in the MelonMenBot directory run
+Now in terminal if you are not already in the MelonMenBot directory run:
+
+`cd MelonMenBot`
 
 **If this is for testing purposes then start a new singleplayer world and open to LAN**
 - In config.json set the port to the lan port
